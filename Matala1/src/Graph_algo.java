@@ -1,5 +1,4 @@
-import java.io.IOException;
-import java.sql.Time;
+ 
 import java.util.*;
 
 public class Graph_algo {
@@ -125,24 +124,12 @@ public class Graph_algo {
 		}
 	};
 
-	public double SP_with_BlackList(int vertexA, int vertexB, int[] BlackList){
-		return graph.BlackList(vertexA, vertexB, BlackList);
-
-	}
-
-/*	public static void main(String args[]) throws IOException {
-
-		String path = "C:\\Users\\naor\\Desktop\\Graphs_small\\test1.txt";
-		int a[] = {0};
-		Graph graph = new Graph(path);
-		//	System.out.print("Representation of WeighedDigraph\n");
-		//System.out.print(graph);
-		Graph_algo finder = new Graph_algo(graph);
-		//	finder.SP_with_BlackList(4, 5, a);
-
-
+/*	public double SP_with_BlackList(int vertexA, int vertexB, int[] BlackList){
+		 return graph.BlackList(vertexA, vertexB, BlackList);
 
 	}*/
+
+ 
 
 
 

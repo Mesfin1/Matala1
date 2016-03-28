@@ -8,10 +8,11 @@
 // For file reading
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class Graph {
 	static Scanner scanner ;
 	public int numNodes; // number of verices in the graph
 	// array of vertices
+	private static int points;
 	ArrayList<GraphEdge> adj1;
 	static GraphEdge graphEdge=new GraphEdge(0, 0, 0);
 	Graph_algo gAlgo=new Graph_algo();
@@ -49,31 +51,61 @@ public class Graph {
 		System.out.println();
 	}
 
-	public static void readGraph(String s){
-		try {
-			String name = s;
-			FileReader fr = null;
-			BufferedReader br = null;
-			fr = new FileReader(name);
-			br = new BufferedReader(fr);
-			int numberNodes = Integer.parseInt(br.readLine());
-		 
-			int numberEdges = Integer.parseInt(br.readLine());
+	public static void readGraph(String s,String s1) throws FileNotFoundException{
  
-			for (int i = 0; i < numberEdges; i = i + 1) {
-				StringTokenizer help = new StringTokenizer(br.readLine());
-				int first = Integer.parseInt((String) help.nextElement());
-				int second = Integer.parseInt((String) help.nextElement());
-				double weight = Double.parseDouble((String) help.nextElement());
-				System.out.println( first+" "+second+" "+weight);
+		
 
-			}
-			fr.close();
-			br.close();
-		} catch (Exception e) {
+ 	double we=graphEdge.getWeigth(s1);
+ 	
+		int size_of_BL=0;
+		int BL[];
+		Vector<Integer>myBL=new Vector<>();
+		try {
+	           
+             File file = new File(s);
+
+            Scanner input = new Scanner(file);
+            
+             points = (int)input.nextDouble();
+             
+            
+            int count=0;
+           while (count<points ) {
+       	
+       		
+        	  int a = input.nextInt();
+        	  int b=input.nextInt();
+        	  
+        	  System.out.println("  aaaaaaa "+a+" "+b+" "+we);
+        	  
+        	  BL = new int[size_of_BL];
+				for (int j = 0; j < size_of_BL; j++) {
+			//		BL[j] = Integer.parseInt(parts[(j + 3)]);
+                   myBL.addElement(BL[j]);
+				//	int w=Integer.parseInt(parts[j+3]);
+				//	w=Integer.MAX_VALUE;
+					System.out.println(graphEdge.getFrom()+" "+graphEdge.getTo()+" "+graphEdge.getWeight());
+					graphEdge=new GraphEdge(a, b, we);
+				}
+        /*	  if(c<=0){
+        		  System.out.println("no negative input allowed");
+        	  	  return;}*/
+      
+        	  count++;
+               
+            }
+            
+            input.close();
  
-			e.printStackTrace();
-		}
+            
+            
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    
+
+	
 	}
 
 	/**
@@ -83,7 +115,7 @@ public class Graph {
 	 */
 
 	public static void RGraph(String fileName) throws IOException {
-		long start = new Date().getTime();
+		/*long start = new Date().getTime();
 		FileReader fr = new FileReader(fileName);
 		BufferedReader is = new BufferedReader(fr);
 		String num_of_lines = is.readLine();
@@ -131,7 +163,8 @@ public class Graph {
 
 		 
 		long s2 = new Date().getTime();
-		System.out.println("Total time: " + (s2 - start) + "  ms");
+		System.out.println("Total time: " + (s2 - start) + "  ms");*/
+		//readGraph(fileName);
 
 	}
 
@@ -144,27 +177,7 @@ public class Graph {
 	public ArrayList<GraphEdge> edgesOf(int vertex) {
 		return adj.get(vertex);
 	}
-
-	public double BlackList(int a,int b,int[] BL){
-
-		Graph g = new Graph();
-		Graph_algo ans1 = new Graph_algo(g);
-		for (int i = 0; i < BL.length; i++) {
-			if(BL[i] == a || BL[i] == b) System.out.println("one of the nodes is in the blackList");
-		}
-		for (GraphEdge edge_a : edgesOf(a)) {
-			edge_a.setWeight(Double.MAX_VALUE);
-
-		}
-		for (GraphEdge edge_b : edgesOf(b)) {
-			edge_b.setWeight(Double.MAX_VALUE);
-
-		}
-
-		return ans1.CheapestPrice(a, b);
-	}
-
-
+ 
 
 	/**
 	 * @return list of all edges in the graph.
@@ -303,29 +316,7 @@ public class Graph {
 			e.printStackTrace();
 		}
 		
-/*		FileReader reader = null;
-		FileWriter writer = null;
-		try {
-			reader = new FileReader(from);
-			writer = new FileWriter(into);
-			int a = 0;
-			while ((a = reader.read()) != -1) {
-				graphEdge.getFrom();
-
-				writer.write(a);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				reader.close();
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}*/
+ 
 	}
 	 
 	/**
@@ -334,26 +325,17 @@ public class Graph {
 	 * @throws IOException 
 	 */
 	public static void main(String args[]) throws IOException {
-		//Graph graph = new Graph();
+ 
 
 
-
-		/*	 String filePath="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\test1.txt";   // scanner to read file
-		Scanner in;
-		String anString="C:\\Users\\Mesfin\\Desktop\\";
-		Graph G =new Graph(filePath,anString+".txt");*/
-		//G.MakeNewFile(filePath, anString);
-		//readGraph(new Scanner(new FileReader(filePath)));
-
-		//	Graph graph = new Graph(filePath);
-		//graph.readGraphwithBL(filePath);
-		//System.out.println();
-		//System.out.print(graph);
+ 
 		String filePath="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\test1.txt";   // scanner to read file
 		String anString="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\tinyEWD.txt";
- 		String theans="C:\\Users\\Mesfin\\Desktop\\ans.txt";
-  
-		RGraph(filePath);
+		
+ 		//String theans="C:\\Users\\Mesfin\\Desktop\\ans.txt";
+    readGraph(filePath,anString);
+		//RGraph(filePath);
+		
 	
 	}
 }

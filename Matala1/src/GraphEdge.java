@@ -1,8 +1,12 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -30,12 +34,53 @@ public class GraphEdge {
 	private int cost;                      // number of calls to relax()
 
 
+
 	/**
 	 * Construct graph edge
 	 * @param from
 	 * @param to
 	 * @param weight
+	 * @throws FileNotFoundException 
 	 */
+
+
+
+	public double getWeigth(String f) throws FileNotFoundException {
+		double ansDouble=0;
+
+		Scanner input = new Scanner(f);
+	
+		File file = new File(input.nextLine());
+
+		if (!file.exists())
+		{
+			System.out.println("File does not exist");
+			System.exit(0);
+		}
+
+
+
+		Scanner inFile = new Scanner(file);
+		// Read the number of vertices
+		String s = inFile.nextLine();
+		int numberOfVertices = Integer.parseInt(s);
+		System.out.println("The number of vertices is " + numberOfVertices);
+       inFile.nextLine();
+
+		while (inFile.hasNext())
+		{
+			s = inFile.nextLine();
+			String[] triplet = s.split(" ");
+
+			from = Integer.parseInt(triplet[0]);
+			to = Integer.parseInt(triplet[1]);
+			ansDouble = Double.parseDouble(triplet[2]);
+		 
+		}
+		return ansDouble;
+	}
+
+
 	public GraphEdge(String f)
 	{
 		try {
@@ -48,7 +93,7 @@ public class GraphEdge {
 			//			graph = new double[numberNodes][numberNodes];
 			int numberEdges = Integer.parseInt(br.readLine());
 
-	 
+
 
 			// while ((str = br.readLine()) != null) {
 			for (int i = 0; i < numberEdges; i = i + 1) {
@@ -59,7 +104,7 @@ public class GraphEdge {
 				g.graphEdge.from= first;
 				g.graphEdge.to= second;
 				g.graphEdge.weight= weight;
-			 
+
 			}
 			fr.close();
 			br.close();
@@ -125,7 +170,8 @@ public class GraphEdge {
 	/**
 	 * @return weight of edge between from() and to()
 	 */
-	public double weight() { return weight; }
+	public double weight() 
+	{ return weight; }
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
