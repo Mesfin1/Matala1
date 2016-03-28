@@ -49,6 +49,32 @@ public class Graph {
 		System.out.println();
 	}
 
+	public static void readGraph(String s){
+		try {
+			String name = s;
+			FileReader fr = null;
+			BufferedReader br = null;
+			fr = new FileReader(name);
+			br = new BufferedReader(fr);
+			int numberNodes = Integer.parseInt(br.readLine());
+		 
+			int numberEdges = Integer.parseInt(br.readLine());
+ 
+			for (int i = 0; i < numberEdges; i = i + 1) {
+				StringTokenizer help = new StringTokenizer(br.readLine());
+				int first = Integer.parseInt((String) help.nextElement());
+				int second = Integer.parseInt((String) help.nextElement());
+				double weight = Double.parseDouble((String) help.nextElement());
+				System.out.println( first+" "+second+" "+weight);
+
+			}
+			fr.close();
+			br.close();
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Instantiate graph from file with data
@@ -56,79 +82,56 @@ public class Graph {
 	 * @throws IOException
 	 */
 
-	public Graph(String fileName) throws IOException {
+	public static void RGraph(String fileName) throws IOException {
 		long start = new Date().getTime();
 		FileReader fr = new FileReader(fileName);
 		BufferedReader is = new BufferedReader(fr);
 		String num_of_lines = is.readLine();
+		System.out.println(num_of_lines);
 		String s = is.readLine();
-		int ll = 0;
-
-		//	String[] startdst = s.split(" ");
-		while ((s != null) && (ll < 20))
-		{
-			String[] parts = s.split("");
+ 		int ll = 0;
+ 		int[] BL = null ;
+ 		Vector<Integer>myBl=new Vector<>();
+		String[] startdst = s.split(" ");
+		for (int i = 0; i < num_of_lines.length(); i++) {
+			
+		
+			String[] parts = s.split(" ");
 			int source = Integer.parseInt(parts[0]);
 			graphEdge.setFrom(source);
 			int target = Integer.parseInt(parts[1]);
 			graphEdge.setTo(target);
+			
 			double wei = graphEdge.getWeight();
-
-			System.out.println(source+" "+target);
-			int size_of_BL = Integer.parseInt(parts[2]);
+             
+ 			int size_of_BL = Integer.parseInt(parts[2]);
+ 			System.err.println(size_of_BL);
 			graphEdge=new GraphEdge(source, target, wei);
 			
 			if(s.length()>3){
-				int[] BL = new int[size_of_BL];
-				for (int i = 0; i < size_of_BL; i++) {
-					BL[i] = Integer.parseInt(parts[(i + 3)]);
-
-					int w=Integer.parseInt(parts[i+3]);
+			 BL = new int[size_of_BL];
+				for (int j = 0; j < size_of_BL; j++) {
+					BL[j] = Integer.parseInt(parts[(j + 3)]);
+                     myBl.addElement(BL[i]);
+					int w=Integer.parseInt(parts[j+3]);
 					w=Integer.MAX_VALUE;
 					System.out.println(graphEdge.getFrom()+" "+graphEdge.getTo()+" "+graphEdge.getWeight());
 					graphEdge=new GraphEdge(source, target, w);
 				}
 				// double dist = sp(G, source, target, BL);
 
-				ll++;
-				s = is.readLine();
-			}
+			
+			}	
+			ll++;
+		
+		}
+		for (int i = 0; i < myBl.size(); i++) {
+			System.out.println(myBl.get(i));
 		}
 
 		 
 		long s2 = new Date().getTime();
 		System.out.println("Total time: " + (s2 - start) + "  ms");
-
-	}
-	public void readGraphwithBL(String file) throws IOException{
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-
-
-		int from,to,blVertex;
-		int blWeight = Integer.MAX_VALUE;
-
-		String line = reader.readLine() ;
-		String[] parts=line.split(",|\\s+");		    
-		while ((line = reader.readLine()) != null) {
-
-			//	if(parts.length > 3){
-			from = Integer.parseInt(parts[0]);
-			System.out.println(from);
-			line=reader.readLine();
-
-			to = Integer.parseInt(parts[1]);
-			System.out.println(to);
-			int blSize = Integer.parseInt(parts[2]);
-			int blackList[] = new int[blSize];
-			for (int i = 0; i < blackList.length; i++){
-				blVertex =Integer.parseInt(parts[i+3]);
-
-
-			}
-			addEdge(new GraphEdge(from, to));
-		}
-
-		//}
 
 	}
 
@@ -216,25 +219,7 @@ public class Graph {
 
 		return out;
 	}
-	/*public String toString() {
-	String out = " ";
 
-	  for (int from : adj.keySet()) {
-	   ArrayList<GraphEdge> currentEdges = adj.get(from);
-
-	   if (currentEdges.size() == 0)
-	    out += "-,";
-
-	   for (GraphEdge edge : currentEdges){
-	    out+=edge.from()+ "->"+edge.to()+ " " + edge.weight() +  ",";
-	   }
-
-	   out = out.substring(0,out.length() - 1);
-	   out += "\n";
-	  }
-
-	  return out;
-	}*/
 	/**
 	 * Add new edge to the system.
 	 * @param newEdge
@@ -367,8 +352,8 @@ public class Graph {
 		String filePath="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\test1.txt";   // scanner to read file
 		String anString="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\tinyEWD.txt";
  		String theans="C:\\Users\\Mesfin\\Desktop\\ans.txt";
-
-		Graph G =new Graph(anString);
-		G.MakeNewFile(filePath, theans);
+  
+		RGraph(filePath);
+	
 	}
 }
