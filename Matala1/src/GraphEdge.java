@@ -45,11 +45,11 @@ public class GraphEdge {
 
 
 
-	public double getWeigth(String f) throws FileNotFoundException {
+	public double getWeigth(int a,int b,String f) throws FileNotFoundException {
 		double ansDouble=0;
 
 		Scanner input = new Scanner(f);
-	
+
 		File file = new File(input.nextLine());
 
 		if (!file.exists())
@@ -64,8 +64,8 @@ public class GraphEdge {
 		// Read the number of vertices
 		String s = inFile.nextLine();
 		int numberOfVertices = Integer.parseInt(s);
-		System.out.println("The number of vertices is " + numberOfVertices);
-       inFile.nextLine();
+		//	System.out.println("The number of vertices is " + numberOfVertices);
+		inFile.nextLine();
 
 		while (inFile.hasNext())
 		{
@@ -74,8 +74,11 @@ public class GraphEdge {
 
 			from = Integer.parseInt(triplet[0]);
 			to = Integer.parseInt(triplet[1]);
-			ansDouble = Double.parseDouble(triplet[2]);
-		 
+			if(a==from&&b==to)
+			{
+				ansDouble = Double.parseDouble(triplet[2]);
+
+			}
 		}
 		return ansDouble;
 	}
