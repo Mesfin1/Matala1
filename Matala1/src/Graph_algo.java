@@ -18,6 +18,11 @@ public class Graph_algo {
 		size = graph.size();
 	}
 
+	/**
+	 * 
+	 * @param int a,b nodes 
+	 * calculate the cheapest price from a to b
+	 */
 	public double CheapestPrice(int a , int b){
 		double total = 0;
 		if (weight.get(a) > weight.get(b)) {
@@ -103,35 +108,6 @@ public class Graph_algo {
 		return nodePath;
 	}
 
-	public double SP_with_BlackList(int VertexA, int VertexB, ArrayList<GraphEdge> BlackList){
-
-		if(BlackList.contains(VertexA) || BlackList.contains(VertexB)){
-			System.out.println("one of the Vertex is in the BlackList");
-		}
-
-		for (GraphEdge edge : BlackList) {
-			edge.setWeight(Double.MAX_VALUE);
-		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		return VertexB;
-
-	}
-
-
-
 	/**
 	 * Comparator for priority queue
 	 */
@@ -147,25 +123,24 @@ public class Graph_algo {
 		}
 	};
 
-	public static void main(String args[]) {
-
-		String path = "C:\\Users\\naor\\Desktop\\Graphs_small\\tinyEWG.txt";
-		long start = System.currentTimeMillis();
-		try {
-			Graph graph = new Graph(path);
-			//	System.out.print("Representation of WeighedDigraph\n");
-			System.out.print(graph);
-			Graph_algo finder = new Graph_algo(graph);
-			//	System.out.println(finder.shortestPath(4,7));
-
-
-		} 
-
-		catch (IOException e) {}
-
-		System.out.println(System.currentTimeMillis() - start + "ms");
+	public double SP_with_BlackList(int vertexA, int vertexB, int[] BlackList){
+		return graph.BlackList(vertexA, vertexB, BlackList);
 
 	}
+
+/*	public static void main(String args[]) throws IOException {
+
+		String path = "C:\\Users\\naor\\Desktop\\Graphs_small\\test1.txt";
+		int a[] = {0};
+		Graph graph = new Graph(path);
+		//	System.out.print("Representation of WeighedDigraph\n");
+		//System.out.print(graph);
+		Graph_algo finder = new Graph_algo(graph);
+		//	finder.SP_with_BlackList(4, 5, a);
+
+
+
+	}*/
 
 
 
