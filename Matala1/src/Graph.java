@@ -7,7 +7,7 @@
 
 // For file reading
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 public class Graph {
 	private HashMap<Integer, ArrayList<GraphEdge>> adj = new HashMap(); // adjacency-list
@@ -25,6 +27,7 @@ public class Graph {
 	// array of vertices
 	ArrayList<GraphEdge> adj1;
 	static GraphEdge graphEdge=new GraphEdge(0, 0, 0);
+	Graph_algo gAlgo=new Graph_algo();
 	public Graph() {}
 	/**
 	 * Constructor for Graph
@@ -52,64 +55,7 @@ public class Graph {
 	 * @param file
 	 * @throws IOException
 	 */
-	/*	public Graph(String file) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		String line = null;
 
-		int from,to,blVertex;
-		double weight;
-		while ((line = reader.readLine()) != null) {
-			String[] parts = line.split("   ");
-			if (parts.length == 3) {
-				from = Integer.parseInt(parts[0]);
-				to = Integer.parseInt(parts[1]);
-				weight = Double.parseDouble(parts[2]);
-				addEdge(new GraphEdge(from, to, weight));
-			}
-			else if(parts.length > 3) readGraphwithBL(file);
-
-
-			//printGraph(parts);
-		}
-
-	}*/
-	public static void myraed( String f ) throws IOException
-	{
-
-
-		long start = new Date().getTime();
-
-		BufferedReader br = new BufferedReader(new FileReader(f));
-		String line = br.readLine();
-		String[] startdst = line.split(" ");
-
-		while ((line  = br.readLine())!=null)
-		{
-			String[] sa = line.split(" ");
-			int source = Integer.parseInt(sa[0]);
-			int target = Integer.parseInt(sa[1]);
-
-			//   GraphEdge graphEdge=new GraphEdge(source,target);
-			int size_of_BL = Integer.parseInt(sa[2]);
-			int[] BL = new int[size_of_BL];
-			for (int i = 0; i < size_of_BL; i++) {
-				BL[i] = Integer.parseInt(sa[(i + 3)]);
-				int inf=Integer.MAX_VALUE;
-				//    graphEdge.setWeight(inf);
-				graphEdge=new GraphEdge(source, target, inf);
-				//   graphEdge.BellmanFordSP(graphEdge, target); 
-
-			}
-
-		}
-		long s2 = new Date().getTime();
-		System.out.println("Total time: " + (s2 - start) + "  ms");
-
-	}
-
-
-
-	// Create a graph from file
 	public Graph(String fileName) throws IOException {
 		long start = new Date().getTime();
 		FileReader fr = new FileReader(fileName);
@@ -118,34 +64,40 @@ public class Graph {
 		String s = is.readLine();
 		int ll = 0;
 
-		String[] startdst = s.split(" ");
+		//	String[] startdst = s.split(" ");
 		while ((s != null) && (ll < 20))
 		{
-			String[] sa = s.split(" ");
-			int source = Integer.parseInt(sa[0]);
+			String[] parts = s.split("");
+			int source = Integer.parseInt(parts[0]);
 			graphEdge.setFrom(source);
-			int target = Integer.parseInt(sa[1]);
+			int target = Integer.parseInt(parts[1]);
 			graphEdge.setTo(target);
-			int size_of_BL = Integer.parseInt(sa[2]);
-			int[] BL = new int[size_of_BL];
-			for (int i = 0; i < size_of_BL; i++) {
-				BL[i] = Integer.parseInt(sa[(i + 3)]);
+			double wei = graphEdge.getWeight();
 
-				int w=Integer.parseInt(sa[i+3]);
-			 
-				w=Integer.MAX_VALUE;
-		            System.out.println(graphEdge.getFrom()+" "+graphEdge.getTo()+" "+graphEdge.getWeight());
-				graphEdge=new GraphEdge(source, target, w);
+			System.out.println(source+" "+target);
+			int size_of_BL = Integer.parseInt(parts[2]);
+			graphEdge=new GraphEdge(source, target, wei);
+			
+			if(s.length()>3){
+				int[] BL = new int[size_of_BL];
+				for (int i = 0; i < size_of_BL; i++) {
+					BL[i] = Integer.parseInt(parts[(i + 3)]);
+
+					int w=Integer.parseInt(parts[i+3]);
+					w=Integer.MAX_VALUE;
+					System.out.println(graphEdge.getFrom()+" "+graphEdge.getTo()+" "+graphEdge.getWeight());
+					graphEdge=new GraphEdge(source, target, w);
+				}
+				// double dist = sp(G, source, target, BL);
+
+				ll++;
+				s = is.readLine();
 			}
-			// double dist = sp(G, source, target, BL);
-
-			ll++;
-			s = is.readLine();
 		}
+
+		 
 		long s2 = new Date().getTime();
 		System.out.println("Total time: " + (s2 - start) + "  ms");
-
-
 
 	}
 	public void readGraphwithBL(String file) throws IOException{
@@ -310,56 +262,113 @@ public class Graph {
 
 		adj.put(newEdge.from(), currentEdges);
 	}
-	
+
 	/**
 	 * Function writes to a new file
 	 * @param from
-     * @param into
+	 * @param into
 	 */
-public void MakeNewFile(String from,String into){
-	FileReader reader = null;
-	FileWriter writer = null;
-	try {
-	    reader = new FileReader(from);
-	    writer = new FileWriter(into);
-	    int a = 0;
-	        while ((a = reader.read()) != -1) {
-	            writer.write(a);
-	        }
-	    } catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	} finally {
-	    try {
-	        reader.close();
-	        writer.close();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+	public void MakeNewFile(String from,String into){
+		
+		try {
+			// the readFile
+			String name = from;
+			FileReader fr = null;
+			BufferedReader br = null;
+			fr = new FileReader(name);
+			br = new BufferedReader(fr);
+			// /the ansFile
+			String name2 = into;
+			FileWriter fw = null;
+			BufferedWriter bw = null;
+			fw = new FileWriter(name2);
+			bw = new BufferedWriter(fw);
+			// if (!name.endsWith(".txt")) {
+			// name2 = name + ".txt";
+			// }
+			// כתיבת כמות הבדיקות
+/*			int numberChecks = Integer.parseInt(br.readLine());
+			System.err.println(numberChecks);
+			bw.write(numberChecks+"\n");*/
+              
+			for (int i = 0; i < 5; i++) {
+				String ans = " ";
+				String s = br.readLine();
+				ans = s;
+				StringTokenizer help = new StringTokenizer(s);
+				int start = Integer.parseInt((String) help.nextElement());
+ 				int end = Integer.parseInt((String) help.nextElement());
+ 				int numberOfBlacked = Integer.parseInt((String) help
+						.nextElement());
+				Vector<Integer> blacked = new Vector<Integer>(numberOfBlacked);
+				
+				for (int j = 0; j < numberOfBlacked; j++) {
+					blacked.add(Integer.parseInt((String) help.nextElement()));
+				}
+				
+				//ans += " "+graph.BellmanFord(start, blacked, end)+"\n";
+				bw.write(ans);
+			}
+			bw.close();
+			fw.close();
+			br.close();
+			fr.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+/*		FileReader reader = null;
+		FileWriter writer = null;
+		try {
+			reader = new FileReader(from);
+			writer = new FileWriter(into);
+			int a = 0;
+			while ((a = reader.read()) != -1) {
+				graphEdge.getFrom();
+
+				writer.write(a);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}*/
 	}
-}
-
-
+	 
 	/**
 	 * Graph Tests
 	 * @param args
 	 * @throws IOException 
 	 */
 	public static void main(String args[]) throws IOException {
-		Graph graph = new Graph();
-		graph.MakeNewFile("C:\\res\\test1.txt", "C:\\res\\ans.txt");
+		//Graph graph = new Graph();
 
-		
-		/*String filePath="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\test1.txt";   // scanner to read file
+
+
+		/*	 String filePath="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\test1.txt";   // scanner to read file
 		Scanner in;
-		Graph G =new Graph(filePath);*/
-		
+		String anString="C:\\Users\\Mesfin\\Desktop\\";
+		Graph G =new Graph(filePath,anString+".txt");*/
+		//G.MakeNewFile(filePath, anString);
 		//readGraph(new Scanner(new FileReader(filePath)));
 
 		//	Graph graph = new Graph(filePath);
 		//graph.readGraphwithBL(filePath);
 		//System.out.println();
 		//System.out.print(graph);
+		String filePath="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\test1.txt";   // scanner to read file
+		String anString="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\tinyEWD.txt";
+ 		String theans="C:\\Users\\Mesfin\\Desktop\\ans.txt";
+
+		Graph G =new Graph(anString);
+		G.MakeNewFile(filePath, theans);
 	}
 }

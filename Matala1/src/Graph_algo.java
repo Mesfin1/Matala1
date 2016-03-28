@@ -13,6 +13,8 @@ public class Graph_algo {
 	 * Instantiate algorithm providing graph
 	 * @param graph WeighedDigraph graph
 	 */
+	public Graph_algo(){}
+	
 	public Graph_algo(Graph graph) {
 		this.graph = graph;
 		size = graph.size();
