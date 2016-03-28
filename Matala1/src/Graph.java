@@ -7,6 +7,7 @@
 
 // For file reading
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -309,6 +310,36 @@ public class Graph {
 
 		adj.put(newEdge.from(), currentEdges);
 	}
+	
+	/**
+	 * Function writes to a new file
+	 * @param from
+     * @param into
+	 */
+public void MakeNewFile(String from,String into){
+	FileReader reader = null;
+	FileWriter writer = null;
+	try {
+	    reader = new FileReader(from);
+	    writer = new FileWriter(into);
+	    int a = 0;
+	        while ((a = reader.read()) != -1) {
+	            writer.write(a);
+	        }
+	    } catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	} finally {
+	    try {
+	        reader.close();
+	        writer.close();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+}
+
 
 	/**
 	 * Graph Tests
@@ -316,10 +347,14 @@ public class Graph {
 	 * @throws IOException 
 	 */
 	public static void main(String args[]) throws IOException {
-		String filePath="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\test1.txt";   // scanner to read file
-		Scanner in;
-		Graph G =new Graph(filePath);
+		Graph graph = new Graph();
+		graph.MakeNewFile("C:\\res\\test1.txt", "C:\\res\\ans.txt");
 
+		
+		/*String filePath="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\test1.txt";   // scanner to read file
+		Scanner in;
+		Graph G =new Graph(filePath);*/
+		
 		//readGraph(new Scanner(new FileReader(filePath)));
 
 		//	Graph graph = new Graph(filePath);
