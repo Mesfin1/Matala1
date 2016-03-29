@@ -82,12 +82,12 @@ public class Graph {
 
 					for (int j = 0; j < array.length; j++) {
 						array[j]=input.nextInt();
-						we=graphEdge.getWeigth(a,b,s1);	
+						we=graphEdge.getWeigth(a,b,s);	
 					}
 					System.out.println(a+" "+b+" "+size+" "+Arrays.toString(array)+" "+ we);
 				}
 				else {
-					we=graphEdge.getWeigth(a,b,s1);	
+					we=graphEdge.getWeigth(a,b,s);	
 					System.out.println(a+" "+b+" "+we);			
 
 				}
@@ -342,12 +342,11 @@ public class Graph {
 
 
 
-		String filePath="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\test1.txt";   // scanner to read file
+		String filePath="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\test4.txt";   // scanner to read file
 		String anString="C:\\Users\\Mesfin\\Desktop\\Graphs_small\\tinyEWD.txt";
 
 		//String theans="C:\\Users\\Mesfin\\Desktop\\ans.txt";
 		readGraph(filePath,anString);
-		Graph_algo graph_algo=new Graph_algo();
 		//System.out.println(graph_algo.shortestPath(4, 5));
 		//RGraph(filePath);
 
